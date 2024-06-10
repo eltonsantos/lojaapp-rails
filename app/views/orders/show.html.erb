@@ -1,10 +1,35 @@
-<p style="color: green"><%= notice %></p>
+<h1>Pedido <%= @order.id %></h1>
+<p>Data: <%= @order.order_date %></p>
+<p>Total: <%= number_to_currency(@order.total) %></p>
+<p>Status: <%= @order.status %></p>
+<p>Cliente: <%= @order.customer.name %></p>
+<p>Loja: <%= @order.store.name %></p>
+<h3>Itens</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Quantidade</th>
+      <th>Preço</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.item.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.item.price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'Editar', edit_order_path(@order), class: 'btn btn-warning' %>
+<%= link_to 'Voltar', orders_path, class: 'btn btn-secondary' %>
 
-<%= render @order %>
-
-<div>
-  <%= link_to "Edit this order", edit_order_path(@order) %> |
-  <%= link_to "Back to orders", orders_path %>
-
-  <%= button_to "Destroy this order", @order, method: :delete %>
-</div>
+<% if @order.pending? %>
+  <%= link_to 'Aceitar Pedido', advance_status_order_path(@order), method: :patch, class: 'btn btn-primary', data: { confirm: 'Tem certeza que deseja aceitar o pedido?' } %>
+<% elsif @order.in_preparation? %>
+  <%= link_to 'Confirmar Separação', advance_status_order_path(@order), method: :patch, class: 'btn btn-primary', data: { confirm: 'Tem certeza que deseja confirmar a separação?' } %>
+<% elsif @order.confirmed? %>
+  <%= link_to 'Enviar Pedido', advance_status_order_path(@order), method: :patch, class: 'btn btn-primary', data: { confirm: 'Tem certeza que deseja enviar o pedido?' } %>
+<% end %>

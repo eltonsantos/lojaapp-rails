@@ -13,10 +13,9 @@ class Order < ApplicationRecord
     when 'pending'
       update(status: 'in_preparation')
     when 'in_preparation'
-      # Ensure all items are marked as separated
       update(status: 'confirmed')
     when 'confirmed'
-      update(status: 'in_transit') # or 'ready_for_pickup'
+      update(status: 'in_transit')
     end
   end
 end

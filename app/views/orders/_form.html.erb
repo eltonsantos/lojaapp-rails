@@ -21,22 +21,22 @@
     <%= form.text_field :total %>
   </div>
 
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.number_field :status %>
+  <div class="form-group">
+    <%= form.label :status %>
+    <%= form.select :status, Order.statuses.keys.map { |status| [status.humanize, status] }, {}, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :customer_id %>
+    <%= form.collection_select :customer_id, Customer.all, :id, :name, {}, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :store_id %>
+    <%= form.collection_select :store_id, Store.all, :id, :name, {}, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.label :customer_id, style: "display: block" %>
-    <%= form.text_field :customer_id %>
-  </div>
-
-  <div>
-    <%= form.label :store_id, style: "display: block" %>
-    <%= form.text_field :store_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary"  %>
   </div>
 <% end %>

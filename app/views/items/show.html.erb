@@ -1,10 +1,6 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @item %>
-
-<div>
-  <%= link_to "Edit this item", edit_item_path(@item) %> |
-  <%= link_to "Back to items", items_path %>
-
-  <%= button_to "Destroy this item", @item, method: :delete %>
-</div>
+<h1><%= @item.name %></h1>
+<p><%= @item.description %></p>
+<p>Preço: <%= number_to_currency(@item.price) %></p>
+<p>Quantidade em Estoque: <%= @item.stock_quantity %></p>
+<%= link_to 'Editar', edit_item_path(@item), class: 'btn btn-warning' %>
+<%= link_to 'Voltar', items_path, class: 'btn btn-secondary' %>
